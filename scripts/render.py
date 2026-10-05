@@ -18,13 +18,14 @@ SPEED = float(os.environ.get('VOICE_SPEED', '1.15'))
 props = json.load(open(props_path, encoding='utf-8'))
 spoken = props.get('audience_spoken') or props['audience']
 
-# Fixed proof/model lines (measured SHER pilot data), audience-level close (no brand names).
+# Model + close lines are fixed and segment-level (no brand names); the value line comes from the script
+# (falls back to a generic capability line so older props still render).
 vo = dict(props['vo'])
-vo['proof'] = ("Our pilot proves it. The Lens read Sher's nine hundred and eighty-two million views frame by frame, "
-               "and benchmarked it against Turkey, Egypt and Korea. Sher's gap was not pace, but promise.")
+vo.setdefault('value', "From raw signal to decision support: six intelligence layers turn content, scripts and conversations "
+                       "into executive reports, audience maps and forecasts, at any scale.")
 vo['model'] = "Analyse, predict, optimise, produce, measure. Lower risk, stronger retention, and stories that travel."
 vo['close'] = f"Built for {spoken}. That's the power of Cultural Lens, powered by Riyada X nine."
-ORDER = ['hook', 'pains', 'solutions', 'proof', 'model', 'close']
+ORDER = ['hook', 'pains', 'solutions', 'value', 'model', 'close']
 
 # ---- 1. voiceover ----
 from kokoro_onnx import Kokoro

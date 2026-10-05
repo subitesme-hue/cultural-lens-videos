@@ -9,7 +9,16 @@ export const C = {
   w85: 'rgba(255,255,255,0.85)', w60: 'rgba(255,255,255,0.6)', w40: 'rgba(255,255,255,0.4)', w20: 'rgba(255,255,255,0.2)',
   amber: '#F2B84B', gold: '#D4AF5A', red: '#FF6B6B',
 };
-export const GRAD = `linear-gradient(90deg, ${C.blue}, ${C.cyan})`;
+// accent colours are themed per market segment at render time (applyTheme); everything reads them live.
+export const grad = () => `linear-gradient(90deg, ${C.blue}, ${C.cyan})`;
+export const GRAD = grad(); // legacy default (brand blue → cyan)
+export const rgba = (hex: string, a: number) => {
+  const h = hex.replace('#', '');
+  return `rgba(${parseInt(h.slice(0, 2), 16)},${parseInt(h.slice(2, 4), 16)},${parseInt(h.slice(4, 6), 16)},${a})`;
+};
+export const applyTheme = (t: {a: string; b: string; pain?: string}) => {
+  C.blue = t.a; C.cyan = t.b; if (t.pain) C.amber = t.pain;
+};
 export const HEAD = '"Space Grotesk", Inter, sans-serif';
 export const BODY = 'Inter, sans-serif';
 export const MONO = '"JetBrains Mono", monospace';
@@ -18,7 +27,7 @@ export const clamp = {extrapolateLeft: 'clamp' as const, extrapolateRight: 'clam
 export const fade = (f: number, s: number, d = 12) => interpolate(f, [s, s + d], [0, 1], {...clamp, easing: Easing.out(Easing.cubic)});
 export const rise = (f: number, s: number, dist = 26) => (1 - fade(f, s, 16)) * dist;
 export const GradText: React.FC<{children: React.ReactNode}> = ({children}) => (
-  <span style={{background: GRAD, WebkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent'}}>{children}</span>
+  <span style={{background: grad(), WebkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent'}}>{children}</span>
 );
 
 // ---------- constellation (site header motif) ----------
@@ -146,7 +155,7 @@ const Method: React.FC<{dur: number}> = ({dur}) => {
               <div key={t} style={{display: 'flex', alignItems: 'center', gap: 20, padding: '11px 0', borderTop: `1px solid ${C.line}`, opacity: fade(f, s), transform: `translateX(${(1 - fade(f, s)) * 30}px)`}}>
                 <div style={{width: 10, height: 10, borderRadius: 5, background: C.cyan, boxShadow: `0 0 12px ${C.cyan}`}} />
                 <div style={{fontFamily: BODY, fontSize: 31, color: C.white, width: 470}}>{t}</div>
-                <div style={{flex: 1, height: 6, background: C.line, borderRadius: 3}}><div style={{width: `${bar * 100}%`, height: '100%', background: GRAD, borderRadius: 3}} /></div>
+                <div style={{flex: 1, height: 6, background: C.line, borderRadius: 3}}><div style={{width: `${bar * 100}%`, height: '100%', background: grad(), borderRadius: 3}} /></div>
               </div>
             );
           })}
@@ -189,13 +198,13 @@ const Transform: React.FC<{dur: number}> = ({dur}) => {
         </div>
         <div style={{fontFamily: MONO, fontSize: 20, letterSpacing: 3, color: C.cyan, display: 'flex', gap: 30, alignItems: 'center', marginTop: 50, opacity: fade(f, flip)}}>
           <span>CULTURAL LENS READING · MEASURED FROM EPISODE 1</span>
-          <div style={{flex: 1, height: 1, background: 'rgba(103,232,249,0.3)'}} />
+          <div style={{flex: 1, height: 1, background: rgba(C.cyan, 0.3)}} />
         </div>
         <div style={{display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24, marginTop: 20}}>
           {NEW.map((n, i) => {
             const s = flip + 12 + i * 22;
             return (
-              <div key={n.l} style={{background: 'rgba(79,140,255,0.06)', border: `1px solid ${i === 0 ? 'rgba(242,184,75,0.5)' : 'rgba(103,232,249,0.25)'}`, borderRadius: 14, padding: '20px 26px', opacity: fade(f, s), transform: `scale(${0.94 + 0.06 * fade(f, s)})`}}>
+              <div key={n.l} style={{background: rgba(C.blue, 0.06), border: `1px solid ${i === 0 ? 'rgba(242,184,75,0.5)' : rgba(C.cyan, 0.25)}`, borderRadius: 14, padding: '20px 26px', opacity: fade(f, s), transform: `scale(${0.94 + 0.06 * fade(f, s)})`}}>
                 <div style={{fontFamily: HEAD, fontSize: 58, fontWeight: 700, color: n.c}}>{n.v}</div>
                 <div style={{fontFamily: BODY, fontSize: 24, color: C.white}}>{n.l}</div>
                 <div style={{fontFamily: MONO, fontSize: 16, color: C.w40, marginTop: 6, letterSpacing: 1}}>{n.note.toUpperCase()}</div>
@@ -361,7 +370,8 @@ const Traditional: React.FC<{dur: number}> = ({dur}) => {
 // ================= 7 NEW MODEL =================
 const STEPS_NEW = ['Analyze', 'Predict', 'Optimize', 'Produce', 'Measure'];
 const BENEFITS = ['Reduced production risk', 'Higher audience retention', 'Stronger export potential', 'More effective marketing', 'Greater return on investment', 'Improved storytelling quality'];
-export const NewModel: React.FC<{dur: number}> = ({dur}) => {
+export const NewModel: React.FC<{dur: number; line?: [string, string]; benefits?: string[]}> = ({dur, line, benefits}) => {
+  const BEN = benefits && benefits.length >= 3 ? benefits.slice(0, 6) : BENEFITS;
   const f = useCurrentFrame();
   const active = Math.floor(interpolate(f, [8, dur * 0.4], [0, 5], clamp));
   return (
@@ -370,23 +380,23 @@ export const NewModel: React.FC<{dur: number}> = ({dur}) => {
       <div style={{position: 'absolute', top: 190, left: 120, right: 120, display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
         {STEPS_NEW.map((s, i) => (
           <React.Fragment key={s}>
-            <div style={{fontFamily: HEAD, fontSize: 52, fontWeight: 700, padding: '16px 30px', borderRadius: 16, border: `1.5px solid ${i < active ? C.cyan : C.line}`, background: i < active ? 'rgba(79,140,255,0.12)' : 'transparent', color: i < active ? C.white : C.w20, boxShadow: i === active - 1 ? `0 0 40px rgba(103,232,249,0.35)` : 'none'}}>{s}</div>
-            {i < 4 && <div style={{flex: 1, height: 2, margin: '0 12px', background: i < active - 1 ? GRAD : C.line}} />}
+            <div style={{fontFamily: HEAD, fontSize: 52, fontWeight: 700, padding: '16px 30px', borderRadius: 16, border: `1.5px solid ${i < active ? C.cyan : C.line}`, background: i < active ? rgba(C.blue, 0.12) : 'transparent', color: i < active ? C.white : C.w20, boxShadow: i === active - 1 ? `0 0 40px ${rgba(C.cyan, 0.35)}` : 'none'}}>{s}</div>
+            {i < 4 && <div style={{flex: 1, height: 2, margin: '0 12px', background: i < active - 1 ? grad() : C.line}} />}
           </React.Fragment>
         ))}
       </div>
       <div style={{position: 'absolute', top: 380, left: 120, right: 120, display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 22}}>
-        {BENEFITS.map((b, i) => {
+        {BEN.map((b, i) => {
           const s = Math.round(dur * 0.38) + i * 9;
           return (
-            <div key={b} style={{background: C.panel, border: `1px solid rgba(103,232,249,0.25)`, borderRadius: 14, padding: '24px 28px', fontFamily: BODY, fontSize: 30, color: C.white, opacity: fade(f, s), transform: `translateY(${rise(f, s)}px)`, display: 'flex', gap: 16, alignItems: 'center'}}>
+            <div key={b} style={{background: C.panel, border: `1px solid ${rgba(C.cyan, 0.25)}`, borderRadius: 14, padding: '24px 28px', fontFamily: BODY, fontSize: 30, color: C.white, opacity: fade(f, s), transform: `translateY(${rise(f, s)}px)`, display: 'flex', gap: 16, alignItems: 'center'}}>
               <div style={{width: 12, height: 12, borderRadius: 6, background: C.cyan, boxShadow: `0 0 14px ${C.cyan}`}} />{b}
             </div>
           );
         })}
       </div>
       <div style={{position: 'absolute', top: 760, left: 120, right: 120, fontFamily: HEAD, fontSize: 72, fontWeight: 700, color: C.white, opacity: fade(f, dur * 0.72), transform: `translateY(${rise(f, dur * 0.72)}px)`}}>
-        National broadcast dramas → <GradText>global trends.</GradText>
+        {line ? <>{line[0]} → <GradText>{line[1]}</GradText></> : <>National broadcast dramas → <GradText>global trends.</GradText></>}
       </div>
     </Scene>
   );
@@ -420,7 +430,7 @@ const Season2: React.FC<{dur: number}> = ({dur}) => {
       </div>
       <div style={{position: 'absolute', bottom: 110, left: 120, right: 120, display: 'flex', gap: 22, opacity: fade(f, dur * 0.78)}}>
         {['More viral', 'More engaging', 'A positive cultural artifact — internationally'].map((t, i) => (
-          <div key={t} style={{fontFamily: HEAD, fontSize: 34, fontWeight: 600, padding: '14px 28px', borderRadius: 40, border: `1.5px solid ${C.cyan}`, color: i === 2 ? C.white : C.cyan, background: i === 2 ? 'rgba(79,140,255,0.15)' : 'transparent'}}>{t}</div>
+          <div key={t} style={{fontFamily: HEAD, fontSize: 34, fontWeight: 600, padding: '14px 28px', borderRadius: 40, border: `1.5px solid ${C.cyan}`, color: i === 2 ? C.white : C.cyan, background: i === 2 ? rgba(C.blue, 0.15) : 'transparent'}}>{t}</div>
         ))}
       </div>
       <div style={{position: 'absolute', bottom: 40, left: 120, fontFamily: MONO, fontSize: 15, color: C.w40}}>Season 2 values are Lens targets, not forecasts. Benchmarks measured from official YouTube uploads, 5 Oct 2026.</div>
