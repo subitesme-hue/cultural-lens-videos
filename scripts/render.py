@@ -16,9 +16,9 @@ VOICE = os.environ.get('VOICE', 'bm_george')
 SPEED = float(os.environ.get('VOICE_SPEED', '1.15'))
 
 props = json.load(open(props_path, encoding='utf-8'))
-spoken = props.get('company_spoken') or props['company']
+spoken = props.get('audience_spoken') or props['audience']
 
-# Fixed proof/model lines (measured SHER pilot data), company-specific close.
+# Fixed proof/model lines (measured SHER pilot data), audience-level close (no brand names).
 vo = dict(props['vo'])
 vo['proof'] = ("Our pilot proves it. The Lens read Sher's nine hundred and eighty-two million views frame by frame, "
                "and benchmarked it against Turkey, Egypt and Korea. Sher's gap was not pace, but promise.")

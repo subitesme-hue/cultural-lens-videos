@@ -5,7 +5,7 @@ import {C, GRAD, HEAD, BODY, clamp, fade, rise, GradText, Constellation, Grid, S
 export type Pain = {signal: string; title: string; detail: string};
 export type Solution = {module: string; title: string; detail: string};
 export type LeadProps = {
-  company: string;
+  audience: string; // e.g. "OTT platforms" — never a brand name
   segment: string;
   style: 'command' | 'constellation';
   hook_eyebrow: string;
@@ -92,7 +92,7 @@ const Hook: React.FC<{dur: number; p: LeadProps}> = ({dur, p}) => {
         </div>
         <div style={{fontFamily: BODY, fontSize: 32, color: C.w60, marginTop: 30, maxWidth: 1300, opacity: fade(f, Math.round(dur * 0.45))}}>{p.hook_sub}</div>
         <div style={{marginTop: 46, fontFamily: PLEX, fontSize: 26, letterSpacing: 5, padding: '12px 28px', border: '1.5px solid rgba(103,232,249,0.5)', borderRadius: 40}}>
-          <span style={{color: C.w60}}>FOR </span><GradText>{p.company.toUpperCase()}</GradText>
+          <span style={{color: C.w60}}>FOR </span><GradText>{p.audience.toUpperCase()}</GradText>
         </div>
       </AbsoluteFill>
       <div style={{position: 'absolute', left: 120, right: 120, bottom: 70, display: 'flex', gap: 24}}>
@@ -199,7 +199,7 @@ const Close: React.FC<{dur: number; p: LeadProps}> = ({dur, p}) => {
       <AbsoluteFill style={{background: 'radial-gradient(ellipse at center, rgba(8,8,8,0.92) 30%, rgba(8,8,8,0.5) 85%)'}} />
       <AbsoluteFill style={{justifyContent: 'center', alignItems: 'center', textAlign: 'center'}}>
         <div style={{fontFamily: PLEX, fontSize: 24, letterSpacing: 6, color: C.w60, opacity: fade(f, 0)}}>BUILT FOR</div>
-        <div style={{fontFamily: HEAD, fontSize: fit(p.company, 110, 70, 30), fontWeight: 700, color: C.white, marginTop: 10, opacity: fade(f, 6), transform: `translateY(${rise(f, 6)}px)`}}>{p.company}</div>
+        <div style={{fontFamily: HEAD, fontSize: fit(p.audience, 110, 70, 34), fontWeight: 700, color: C.white, marginTop: 10, opacity: fade(f, 6), transform: `translateY(${rise(f, 6)}px)`}}>{p.audience.charAt(0).toUpperCase() + p.audience.slice(1)}</div>
         <div style={{width: interpolate(f, [20, 50], [0, 420], clamp), height: 2, background: GRAD, margin: '40px 0'}} />
         <div style={{fontFamily: HEAD, fontSize: 84, fontWeight: 700, letterSpacing: -2}}><GradText>Cultural Lens</GradText></div>
         <div style={{fontFamily: PLEX, fontSize: 24, letterSpacing: 6, color: C.gold, marginTop: 16, opacity: fade(f, 40)}}>POWERED BY RIYADAX9</div>

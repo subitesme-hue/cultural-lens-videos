@@ -69,7 +69,7 @@ jobs:
           raw = os.environ.get('PROPS', '').strip()
           props = json.loads(raw) if raw else json.load(open('props.sample.json', encoding='utf-8'))
           json.dump(props, open('props.json', 'w', encoding='utf-8'), ensure_ascii=False)
-          print('company:', props.get('company'))
+          print('audience:', props.get('audience'))
           EOF
 
       - name: Render
@@ -82,6 +82,6 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           TAG: ${{ inputs.tag }}
         run: |
-          COMPANY=$(python3 -c "import json;print(json.load(open('props.json'))['company'])")
+          AUDIENCE=$(python3 -c "import json;print(json.load(open('props.json'))['audience'])")
           gh release create "$TAG" out/video.mp4 out/video_cover.jpg \
-            --title "Cultural Lens — $COMPANY" --notes "Rendered by run ${{ github.run_id }}"
+            --title "Cultural Lens — $AUDIENCE" --notes "Rendered by run ${{ github.run_id }}"

@@ -1,28 +1,59 @@
 {
-  "lead_id": "sample-starzplay",
-  "company": "STARZPLAY",
-  "company_spoken": "Starzplay",
+  "lead_id": "sample-ott",
   "segment": "OTT streaming",
   "style": "command",
   "hook_eyebrow": "OTT + DEMAND + RETENTION",
   "hook_title": "Your next subscriber hit is already hiding in the data.",
   "hook_sub": "Cultural Lens reads stories, audiences and influence before you commission.",
   "pains": [
-    {"signal": "Commissioning risk", "title": "Greenlighting on gut feel", "detail": "Regional originals are expensive, and most decisions still rest on past ratings rather than story-level evidence."},
-    {"signal": "Churn", "title": "Viewers leave between seasons", "detail": "Subscribers join for one title and drift away when the next hook arrives too late."},
-    {"signal": "Discovery", "title": "Great stories, unseen", "detail": "Without moments built for short-form, titles struggle to travel beyond their home market."}
+    {
+      "signal": "Commissioning risk",
+      "title": "Greenlighting on gut feel",
+      "detail": "Regional originals are expensive, and most decisions still rest on past ratings rather than story-level evidence."
+    },
+    {
+      "signal": "Churn",
+      "title": "Viewers leave between seasons",
+      "detail": "Subscribers join for one title and drift away when the next hook arrives too late."
+    },
+    {
+      "signal": "Discovery",
+      "title": "Great stories, unseen",
+      "detail": "Without moments built for short-form, titles struggle to travel beyond their home market."
+    }
   ],
   "solutions": [
-    {"module": "Story Intelligence", "title": "Score scripts before you shoot", "detail": "Read pacing, stakes and emotional beats against regional and global hits."},
-    {"module": "Audience Intelligence", "title": "See what keeps viewers watching", "detail": "Map the scenes, characters and promises that hold an audience episode after episode."},
-    {"module": "Viral Intelligence", "title": "Design moments that travel", "detail": "Find and plan the clips that carry a title across markets on social."}
+    {
+      "module": "Story Intelligence",
+      "title": "Score scripts before you shoot",
+      "detail": "Read pacing, stakes and emotional beats against regional and global hits."
+    },
+    {
+      "module": "Audience Intelligence",
+      "title": "See what keeps viewers watching",
+      "detail": "Map the scenes, characters and promises that hold an audience episode after episode."
+    },
+    {
+      "module": "Viral Intelligence",
+      "title": "Design moments that travel",
+      "detail": "Find and plan the clips that carry a title across markets on social."
+    }
   ],
   "vo": {
-    "hook": "Starzplay: your next subscriber hit may already be hiding in the data. Cultural Lens reads stories, audiences and influence, before you commission.",
+    "hook": "O T T platforms: your next subscriber hit may already be hiding in the data. Cultural Lens reads stories, audiences and influence, before you commission.",
     "pains": "For streaming platforms, three costs keep growing. Greenlighting expensive originals on gut feel. Viewers who leave between seasons. And great stories that never travel beyond home.",
     "solutions": "Cultural Lens answers each one. Story intelligence scores scripts before you shoot. Audience intelligence shows what keeps viewers watching. And viral intelligence designs the moments that travel."
   },
   "caption": "",
   "hashtags": [],
-  "timing": {"hook": 9, "pains": 12, "solutions": 12, "proof": 12, "model": 10, "close": 5}
+  "timing": {
+    "hook": 9,
+    "pains": 12,
+    "solutions": 12,
+    "proof": 12,
+    "model": 10,
+    "close": 5
+  },
+  "audience": "OTT platforms",
+  "audience_spoken": "O T T platforms"
 }
