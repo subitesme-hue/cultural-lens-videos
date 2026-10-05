@@ -1,0 +1,26 @@
+{
+  "name": "cultural-lens-videos",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "render": "python3 scripts/render.py props.json"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@fontsource/ibm-plex-mono": "^5.3.0",
+    "@fontsource/inter": "^5.3.0",
+    "@fontsource/jetbrains-mono": "^5.3.0",
+    "@fontsource/space-grotesk": "^5.3.0",
+    "@remotion/bundler": "^4.0.533",
+    "@remotion/cli": "^4.0.533",
+    "@remotion/renderer": "^4.0.533",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "remotion": "^4.0.533",
+    "typescript": "^7.0.2"
+  },
+  "private": true
+}

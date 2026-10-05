@@ -1,0 +1,5 @@
+node_modules/
+out/
+models/
+props.json
+.remotion/
