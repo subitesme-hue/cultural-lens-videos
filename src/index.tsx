@@ -10,6 +10,8 @@ import '@fontsource/jetbrains-mono/400.css';
 import '@fontsource/jetbrains-mono/700.css';
 import '@fontsource/ibm-plex-mono/400.css';
 import '@fontsource/ibm-plex-mono/500.css';
+import '@fontsource/oswald/500.css';
+import '@fontsource/oswald/700.css';
 import {LeadVideo, LeadProps, totalFrames} from './LeadVideo';
 import sample from '../props.sample.json';
 

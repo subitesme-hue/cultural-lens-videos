@@ -1,6 +1,8 @@
 import React from 'react';
 import {AbsoluteFill, Sequence, interpolate, useCurrentFrame, random, Easing} from 'remotion';
 import {C, grad, rgba, applyTheme, HEAD, BODY, clamp, fade, rise, GradText, Constellation, Grid, Scene, NewModel} from './LensParts';
+import {DocHook, DocPains, DocModel} from './DocScenes';
+import {BriefSolutions, BriefValue, BriefClose} from './BriefScenes';
 
 export type Pain = {signal: string; title: string; detail: string};
 export type Solution = {module: string; title: string; detail: string};
@@ -19,6 +21,8 @@ export type LeadProps = {
   value?: {inputs?: string[]; outputs?: string[]; outcomes?: {k: string; t: string}[]};
   model_line?: [string, string];
   benefits?: string[];
+  vo?: {hook?: string; pains?: string; solutions?: string; value?: string};
+  look?: 'documentary' | 'classic'; // scene design; default documentary (Cinematic Documentary-inspired), classic = previous dashboard look
 };
 
 // ---------- per-segment colour themes (bg, fonts and RiyadaX9 gold stay constant) ----------
@@ -393,7 +397,17 @@ export const LeadVideo: React.FC<LeadProps> = (p) => {
   const total = totalFrames(p.timing);
   return (
     <AbsoluteFill style={{background: C.bg}}>
-      {tl.map((s) => (
+      {p.look !== 'classic' && tl.map((s) => (
+        <Sequence key={s.key} from={s.from} durationInFrames={s.dur}>
+          {s.key === 'hook' && <DocHook dur={s.dur} p={p} v={v} />}
+          {s.key === 'pains' && <DocPains dur={s.dur} p={p} v={v} />}
+          {s.key === 'solutions' && <BriefSolutions dur={s.dur} p={p} v={v} />}
+          {s.key === 'value' && <BriefValue dur={s.dur} p={p} v={v} />}
+          {s.key === 'model' && <DocModel dur={s.dur} line={p.model_line} benefits={p.benefits} v={v} />}
+          {s.key === 'close' && <BriefClose dur={s.dur} p={p} v={v} />}
+        </Sequence>
+      ))}
+      {p.look === 'classic' && tl.map((s) => (
         <Sequence key={s.key} from={s.from} durationInFrames={s.dur}>
           {s.key === 'hook' && <Hook dur={s.dur} p={p} />}
           {s.key === 'pains' && (v % 2 === 0 ? <PainsCards dur={s.dur} p={p} /> : <PainsRows dur={s.dur} p={p} />)}
