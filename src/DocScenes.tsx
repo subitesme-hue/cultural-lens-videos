@@ -318,7 +318,7 @@ export const DocPains: React.FC<{dur: number; p: DocProps; v: number}> = ({dur, 
 // ======================= 3 · SOLUTIONS — three photo-strip columns on paper =======================
 export const DocSolutions: React.FC<{dur: number; p: DocProps; v: number}> = ({dur, p, v}) => {
   const f = useCurrentFrame();
-  const at = [0.1, 0.38, 0.66].map((x) => Math.round(dur * x));
+  const at = sentenceStarts(p.vo?.solutions, dur, 4, [0, 0.1, 0.38, 0.66]).slice(1);
   const W = 520, G = 60, X0 = 120;
   return (
     <DocScene dur={dur} paper tag="WHAT CULTURAL LENS DOES">

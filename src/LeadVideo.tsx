@@ -1,8 +1,21 @@
 import React from 'react';
 import {AbsoluteFill, Sequence, interpolate, useCurrentFrame, random, Easing} from 'remotion';
 import {C, grad, rgba, applyTheme, HEAD, BODY, clamp, fade, rise, GradText, Constellation, Grid, Scene, NewModel} from './LensParts';
-import {DocHook, DocPains, DocModel} from './DocScenes';
+import {DocHook, DocPains, DocModel, DocSolutions, DocValue, DocClose} from './DocScenes';
 import {BriefSolutions, BriefValue, BriefClose} from './BriefScenes';
+import {EdHook, EdPains, PosterHook, PosterPains, HubSolutions} from './VariantScenes';
+
+// ---------- the style book: each look is a different mix of registers; the daily `variant` rotates them ----------
+type SceneC = React.FC<{dur: number; p: any; v: number}>;
+const ModelC: SceneC = ({dur, p, v}) => <DocModel dur={dur} line={p.model_line} benefits={p.benefits} v={v} />;
+export const LOOKS: {name: string; hook: SceneC; pains: SceneC; solutions: SceneC; value: SceneC; model: SceneC; close: SceneC}[] = [
+  {name: 'Intelligence Brief', hook: DocHook, pains: DocPains, solutions: BriefSolutions, value: BriefValue, model: ModelC, close: BriefClose},
+  {name: 'Editorial', hook: EdHook, pains: EdPains, solutions: DocSolutions, value: BriefValue, model: ModelC, close: DocClose},
+  {name: 'Poster', hook: PosterHook, pains: PosterPains, solutions: HubSolutions, value: BriefValue, model: ModelC, close: BriefClose},
+  {name: 'Documentary', hook: DocHook, pains: EdPains, solutions: HubSolutions, value: DocValue, model: ModelC, close: DocClose},
+  {name: 'Editorial Poster', hook: EdHook, pains: PosterPains, solutions: BriefSolutions, value: BriefValue, model: ModelC, close: BriefClose},
+  {name: 'Paper & Poster', hook: PosterHook, pains: DocPains, solutions: DocSolutions, value: BriefValue, model: ModelC, close: DocClose},
+];
 
 export type Pain = {signal: string; title: string; detail: string};
 export type Solution = {module: string; title: string; detail: string};
@@ -22,6 +35,7 @@ export type LeadProps = {
   model_line?: [string, string];
   benefits?: string[];
   vo?: {hook?: string; pains?: string; solutions?: string; value?: string};
+  look_index?: number; // force one look from LOOKS (otherwise variant picks it)
   look?: 'documentary' | 'classic'; // scene design; default documentary (Cinematic Documentary-inspired), classic = previous dashboard look
 };
 
@@ -397,16 +411,11 @@ export const LeadVideo: React.FC<LeadProps> = (p) => {
   const total = totalFrames(p.timing);
   return (
     <AbsoluteFill style={{background: C.bg}}>
-      {p.look !== 'classic' && tl.map((s) => (
-        <Sequence key={s.key} from={s.from} durationInFrames={s.dur}>
-          {s.key === 'hook' && <DocHook dur={s.dur} p={p} v={v} />}
-          {s.key === 'pains' && <DocPains dur={s.dur} p={p} v={v} />}
-          {s.key === 'solutions' && <BriefSolutions dur={s.dur} p={p} v={v} />}
-          {s.key === 'value' && <BriefValue dur={s.dur} p={p} v={v} />}
-          {s.key === 'model' && <DocModel dur={s.dur} line={p.model_line} benefits={p.benefits} v={v} />}
-          {s.key === 'close' && <BriefClose dur={s.dur} p={p} v={v} />}
-        </Sequence>
-      ))}
+      {p.look !== 'classic' && tl.map((s) => {
+        const L = LOOKS[(typeof p.look_index === 'number' ? p.look_index : v) % LOOKS.length];
+        const Comp = L[s.key as keyof typeof L] as SceneC;
+        return <Sequence key={s.key} from={s.from} durationInFrames={s.dur}><Comp dur={s.dur} p={p} v={v} /></Sequence>;
+      })}
       {p.look === 'classic' && tl.map((s) => (
         <Sequence key={s.key} from={s.from} durationInFrames={s.dur}>
           {s.key === 'hook' && <Hook dur={s.dur} p={p} />}

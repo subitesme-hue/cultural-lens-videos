@@ -53,3 +53,18 @@ Three registers mixed per scene, chosen for what each part of the script must do
 | Close | End card | Cinematic Documentary + pilot close | Plate block, hairlines, wide wordmark over glowing constellation, "measure views → measures influence" line, follow CTA |
 
 Plates are generated graphics (light trails, halftone globe, signal waves, constellation, bars), monochrome with a segment duotone — still no third-party footage. The pilot film contributes motion only (constellation glow, scanner sweep, hub-and-arc map, spring counters), never its text or data. Code: `src/DocScenes.tsx`, `src/BriefScenes.tsx`.
+
+## Style book (rotates daily)
+
+`LOOKS` in `src/LeadVideo.tsx` mixes one scene per slot from the documentary, editorial, infographic-poster and pilot-motion registers. n8n sends `variant` = day number, so the look (and plates, mirroring) changes every day and repeats only after six days; `look_index` in props forces a specific look.
+
+| # | Look | Hook | Pains | Solutions | Value | Close |
+|---|---|---|---|---|---|---|
+| 0 | Intelligence Brief | Documentary cover | Documentary chapters | Editorial chapters | Infographic | Constellation end card |
+| 1 | Editorial | Editorial cover | Editorial chapters | Paper columns | Infographic | Paper end card |
+| 2 | Poster | Accent poster + layer ring | Poster gauges | Glowing hub | Infographic | Constellation end card |
+| 3 | Documentary | Documentary cover | Editorial chapters | Glowing hub | Contact sheet | Paper end card |
+| 4 | Editorial Poster | Editorial cover | Poster gauges | Editorial chapters | Infographic | Constellation end card |
+| 5 | Paper & Poster | Accent poster + layer ring | Documentary chapters | Paper columns | Infographic | Paper end card |
+
+New looks are added by writing a scene in `src/VariantScenes.tsx` (or a new file) and adding a row to `LOOKS`.
