@@ -38,3 +38,18 @@ Each video derives a layout variant from its id: backdrop (light trails / conste
 - Every unmeasured visual is illustrative (dashboards, trend lines, exposure meters). No invented numbers; no pilot/case-study references — videos sell the service.
 - Voice: Kokoro `bm_george`, 1.15×. Score: tabla keherwa + tanpura + bansuri, ~15 dB under VO, sam on every cut.
 - **No brand or company names** anywhere in the video or voiceover. Videos speak to a segment ("OTT platforms", "production houses"). Companies are addressed only in the social caption (names / @tags).
+
+## Current look: "The Intelligence Brief" (default since Oct 2026)
+
+Three registers mixed per scene, chosen for what each part of the script must do. Same props, script, Kokoro VO, timing and segment colours as before; `look: "classic"` in props renders the previous dashboard look.
+
+| Scene | Register | Reference | What it shows |
+|---|---|---|---|
+| Hook | Documentary cover | Motion Array "Cinematic Documentary" | Paper/ink split, sliced monochrome plate, triple hairlines, headline + FOR {AUDIENCE} pill; frame 0 is the thumbnail |
+| Pains | Documentary chapters | same | One chapter per pressure (outlined 01–03, strip-reveal plate, paper card, drifting keyword), synced to each VO sentence |
+| Solutions | Editorial chapters | Motion Array "Creative History Opener" | Full-bleed tinted plate, huge condensed (Oswald) accent title, rotated module sidebar, ghost word, "answers pressure 0X" link |
+| Value | Infographic posters | Motion Array "Infographic Posters" + pilot-film motion | 6-layer ring counter with inputs/outputs flowing; outcome rings; Dubai hub map with arcs, scanner sweep, count-up site figures |
+| Model | Kinetic type | Cinematic Documentary | One huge step word at a time, then benefits grid and from → to band |
+| Close | End card | Cinematic Documentary + pilot close | Plate block, hairlines, wide wordmark over glowing constellation, "measure views → measures influence" line, follow CTA |
+
+Plates are generated graphics (light trails, halftone globe, signal waves, constellation, bars), monochrome with a segment duotone — still no third-party footage. The pilot film contributes motion only (constellation glow, scanner sweep, hub-and-arc map, spring counters), never its text or data. Code: `src/DocScenes.tsx`, `src/BriefScenes.tsx`.

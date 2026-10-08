@@ -230,7 +230,7 @@ export const BriefClose: React.FC<{dur: number; p: DocProps; v: number}> = ({dur
       <Constellation intensity={0.5} labels glow={0.6 * g} />
       <AbsoluteFill style={{background: 'linear-gradient(90deg, rgba(8,8,8,0.2) 0%, rgba(8,8,8,0.72) 45%, rgba(8,8,8,0.8) 100%)'}} />
       <div style={{position: 'absolute', left: 0, top: 290, width: 600, height: 440}}>
-        <SliceReveal at={0} w={600} h={440} n={4}><Plate kind={PLATES[(v + 1) % PLATES.length]} w={600} h={440} id="bc" push={f / dur} tint={0.45} /></SliceReveal>
+        <SliceReveal at={0} w={600} h={440} n={4}><Plate kind="globe" w={600} h={440} id="bc" push={f / dur} tint={0.45} /></SliceReveal>
       </div>
       <Hairlines x={650} y={230} h={620} at={6} />
       <div style={{position: 'absolute', left: 740, right: 100, top: 0, bottom: 0, display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
